@@ -1,0 +1,8 @@
+source: google-drive
+id_file: 1woKyUplgCKcA1yY31VShuRhsB5ryZ3qI
+task: binary-classification
+classes: ['brain', 'chest']
+extension: rar
+framework: pytorch
+folder: best_model
+file_name: best_model.pth
