@@ -1,0 +1,16 @@
+torch==2.3.0
+torchvision==0.18.0
+numpy==1.25.2
+pydicom==2.4.4
+tqdm==4.66.4
+scikit-learn==1.2.2
+rarfile==4.2
+onnx==1.16.1
+onnxscript==0.1.0.dev20240711
+onnxruntime==1.18.1
+Flask==3.0.3
+PyYAML==6.0.1
+requests==2.32.3
+pydantic==2.8.2
+beautifulsoup4==4.12.3
+pillow==10.4.0
