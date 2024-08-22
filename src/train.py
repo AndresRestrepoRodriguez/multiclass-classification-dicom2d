@@ -10,8 +10,8 @@ from utils.data import (
 from utils.losses import define_NLL_loss
 from utils.optimizers import define_adam_optimizer
 from utils.utils import check_directory_contents
-from data.DICOMDataset import BinaryDICOMDataset
-from src.models.DICOMMulticlassClassification import MulticlassClassificationCNN
+from data.DICOMDataset import MulticlassDICOMDataset
+from models.DICOMMulticlassClassification import MulticlassClassificationCNN
 from models.train_model import train_model
 from utils.schemas import MulticlassDataModel
 from pathlib import Path
@@ -61,10 +61,10 @@ def train(opt):
     transformations_training = define_train_transformation(image_size)
     transformations_validation = define_val_transformation(image_size)
 
-    training_dataset = BinaryDICOMDataset(os.path.join(dataset_extracted, 'train'),
+    training_dataset = MulticlassDICOMDataset(os.path.join(dataset_extracted, 'train'),
                                           data_model.classes,
                                           transform=transformations_training)
-    validation_dataset = BinaryDICOMDataset(os.path.join(dataset_extracted, 'val'),
+    validation_dataset = MulticlassDICOMDataset(os.path.join(dataset_extracted, 'val'),
                                             data_model.classes,
                                             transform=transformations_validation)
     

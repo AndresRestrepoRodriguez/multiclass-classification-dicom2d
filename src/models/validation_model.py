@@ -1,5 +1,5 @@
 import torch
-from src.models.DICOMMulticlassClassification import MulticlassClassificationCNN
+from models.DICOMMulticlassClassification import MulticlassClassificationCNN
 from sklearn.metrics import (
     accuracy_score,
     precision_score,

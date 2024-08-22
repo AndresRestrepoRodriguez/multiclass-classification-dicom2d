@@ -1,5 +1,5 @@
 import argparse
-from src.models.DICOMMulticlassClassification import MulticlassClassificationCNN
+from models.DICOMMulticlassClassification import MulticlassClassificationCNN
 import torch
 from models.export_model import (
     export_model_pytorch_trace,
@@ -18,7 +18,7 @@ def export(opt):
         opt.weights,
         opt.imgsz,
         opt.format.strip(),
-        opt.num_clasess
+        opt.num_classes
     )
 
     assert format in FORMATS, f"Invalid format : {format}. Valid formats: {FORMATS}"

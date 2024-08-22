@@ -39,7 +39,7 @@ def train_model(num_epochs, model, train_loader, val_loader, criterion, optimize
         val_bar = tqdm(val_loader, desc="Validating", position=0, leave=True)
         with torch.no_grad():
             for images, labels in val_bar:
-                images, labels = images.to(device), labels.to(device, dtype=torch.float32)
+                images, labels = images.to(device), labels.to(device, dtype=torch.long)
                 outputs = model(images)
                 loss = criterion(outputs, labels)
                 val_losses.append(loss.item())
