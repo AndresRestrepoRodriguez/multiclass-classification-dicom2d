@@ -7,7 +7,7 @@ from utils.data import (
     define_val_transformation,
     define_dataloader
 )
-from utils.losses import define_NLL_loss
+from utils.losses import define_CrossEntropy_loss
 from utils.optimizers import define_adam_optimizer
 from utils.utils import check_directory_contents
 from data.DICOMDataset import MulticlassDICOMDataset
@@ -75,7 +75,7 @@ def train(opt):
     if weights:
         model.load_state_dict(torch.load(weights))
     
-    criterion = define_NLL_loss()
+    criterion = define_CrossEntropy_loss()
     params = {
         'lr':1e-4
     }

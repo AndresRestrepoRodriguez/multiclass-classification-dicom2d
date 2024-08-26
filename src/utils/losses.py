@@ -9,3 +9,8 @@ def define_BCE_logits_loss():
 def define_NLL_loss():
     criterion = nn.NLLLoss()
     return criterion
+
+
+def define_CrossEntropy_loss():
+    criterion = nn.CrossEntropyLoss()
+    return criterion

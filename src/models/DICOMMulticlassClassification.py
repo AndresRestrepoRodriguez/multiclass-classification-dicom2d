@@ -53,6 +53,6 @@ class MulticlassClassificationCNN(nn.Module):
         x = self.fc2(x)
         
         # Apply softmax to output logits to get probabilities for each class
-        x = F.log_softmax(x, dim=1)  # dim=1 applies softmax across the class dimension
+        #x = F.softmax(x, dim=1)  # dim=1 applies softmax across the class dimension
 
         return x
