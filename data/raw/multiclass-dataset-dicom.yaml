@@ -1,6 +1,6 @@
 source: google-drive
-id_file: 14f7wgjCPXTv1zpFqoN1nUe63fSXnQTGa
+id_file: 1Nr7VLHRU3izzrWkoMnlMat4VBMP82Z3J
 task: multiclass-classification
-classes: ['brain', 'chest', 'other']
+classes: ['abdomen', 'brain', 'chest']
 extension: rar
-folder: fake-dataset-multiclass-dicom2d
+folder: dataset-multiclass-dicom2d
