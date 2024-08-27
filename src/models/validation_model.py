@@ -1,22 +1,11 @@
 import torch
 from models.DICOMMulticlassClassification import MulticlassClassificationCNN
-from sklearn.metrics import (
-    accuracy_score,
-    precision_score,
-    recall_score,
-    f1_score,
-    confusion_matrix,
-    ConfusionMatrixDisplay,
-    roc_auc_score,
-    precision_recall_curve,
-    auc,
-    fbeta_score,
-    classification_report
+from sklearn.metrics import ConfusionMatrixDisplay,
 
-)
 import numpy as np
 import onnxruntime as ort
 import matplotlib.pyplot as plt
+from utils import metrics as metrics_citadel
 
 
 def validate_model(data_loader, model_path, classes, num_classes, model_type='pytorch'):
@@ -66,26 +55,60 @@ def validate_model(data_loader, model_path, classes, num_classes, model_type='py
             predicted = torch.argmax(outputs, dim=1)
             all_labels.extend(labels.cpu().numpy())
             all_predictions.extend(predicted.cpu().numpy())
+    
 
-    # Calculate metrics
-    accuracy = accuracy_score(all_labels, all_predictions)
-    precision = precision_score(all_labels, all_predictions, average='macro')
-    recall = recall_score(all_labels, all_predictions, average='macro')
-    f1 = f1_score(all_labels, all_predictions, average='macro')
-    cm = confusion_matrix(all_labels, all_predictions)
+    np_all_labels = np.array(all_labels)
+    np_all_predictions = np.array(all_predictions)
+
+
+    confusion_matrix = metrics_citadel.confusionmatrix(np_all_labels, np_all_predictions)
+    specificity = metrics_citadel.specificity(np_all_labels, np_all_predictions)
+    accuracy = metrics_citadel.accuracy(np_all_labels, np_all_predictions)
+    f1_score = metrics_citadel.f1_score(np_all_labels, np_all_predictions)
+    f05_score = metrics_citadel.f05score(np_all_labels, np_all_predictions)
+    f2score = metrics_citadel.f2score(np_all_labels, np_all_predictions)
+    precision = metrics_citadel.precision(np_all_labels, np_all_predictions)
+    recall = metrics_citadel.recall(np_all_labels, np_all_predictions)
+    kl_divergence = metrics_citadel.kl_divergence(np_all_labels, np_all_predictions)
+
+    #Per class metrics
+
+    per_class_specificity = metrics_citadel.per_class_specificity(np_all_labels, np_all_predictions)
+    per_class_accuracy = metrics_citadel.per_class_accuracy(np_all_labels, np_all_predictions)
+    per_class_precision = metrics_citadel.per_class_precision(np_all_labels, np_all_predictions)
+    per_class_recall = metrics_citadel.per_class_recall(np_all_labels, np_all_predictions)
+    per_class_f1score = metrics_citadel.per_class_f1score(np_all_labels, np_all_predictions)
+    per_class_f2score = metrics_citadel.per_class_f2score(np_all_labels, np_all_predictions)
+    per_class_f05score = metrics_citadel.per_class_f05score(np_all_labels, np_all_predictions)
+
+
+    #cm = confusion_matrix(all_labels, all_predictions)
 
     # Display Confusion Matrix
-    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=classes)
+    disp = ConfusionMatrixDisplay(confusion_matrix=confusion_matrix, display_labels=classes)
     disp.plot().figure_.savefig('confusion_matrix.png')
 
-    # Classification Report
-    print(f"Classification Report:\n{classification_report(all_labels, all_predictions, target_names=classes)}")
+    print(f"Confusion Matrix: {confusion_matrix}")
+    print(f"Validation Accuracy: {accuracy}")
+    print(f"Precision: {precision}")
+    print(f"Recall: {recall}")
+    print(f"F1 Score: {f1_score}")
+    print(f"specificity: {specificity}")
+    print(f"f05_score: {f05_score}")
+    print(f"f2score: {f2score}")
+    print(f"kl_divergence: {kl_divergence}")
 
-    print(f"Confusion Matrix: {cm}")
-    print(f"Validation Accuracy: {accuracy:.4f}")
-    print(f"Precision (macro): {precision:.4f}")
-    print(f"Recall (macro): {recall:.4f}")
-    print(f"F1 Score (macro): {f1:.4f}")
+    print("Per class -------------------------------")
+    print(f"per_class_specificity: {per_class_specificity}")
+    print(f"per_class_accuracy: {per_class_accuracy}")
+    print(f"per_class_precision: {per_class_precision}")
+    print(f"per_class_recall: {per_class_recall}")
+    print(f"per_class_f1score: {per_class_f1score}")
+    print(f"per_class_f2score: {per_class_f2score}")
+    print(f"per_class_f05score: {per_class_f05score}")
+
+
+
 
     
 
