@@ -1,6 +1,6 @@
 import torch
 from models.DICOMMulticlassClassification import MulticlassClassificationCNN
-from sklearn.metrics import ConfusionMatrixDisplay,
+from sklearn.metrics import ConfusionMatrixDisplay
 
 import numpy as np
 import onnxruntime as ort
@@ -53,8 +53,9 @@ def validate_model(data_loader, model_path, classes, num_classes, model_type='py
                 outputs = model(images)
             
             predicted = torch.argmax(outputs, dim=1)
+
             all_labels.extend(labels.cpu().numpy())
-            all_predictions.extend(predicted.cpu().numpy())
+            all_predictions.extend(outputs.cpu().numpy())
     
 
     np_all_labels = np.array(all_labels)
@@ -64,12 +65,11 @@ def validate_model(data_loader, model_path, classes, num_classes, model_type='py
     confusion_matrix = metrics_citadel.confusionmatrix(np_all_labels, np_all_predictions)
     specificity = metrics_citadel.specificity(np_all_labels, np_all_predictions)
     accuracy = metrics_citadel.accuracy(np_all_labels, np_all_predictions)
-    f1_score = metrics_citadel.f1_score(np_all_labels, np_all_predictions)
+    f1_score = metrics_citadel.f1score(np_all_labels, np_all_predictions)
     f05_score = metrics_citadel.f05score(np_all_labels, np_all_predictions)
     f2score = metrics_citadel.f2score(np_all_labels, np_all_predictions)
     precision = metrics_citadel.precision(np_all_labels, np_all_predictions)
     recall = metrics_citadel.recall(np_all_labels, np_all_predictions)
-    kl_divergence = metrics_citadel.kl_divergence(np_all_labels, np_all_predictions)
 
     #Per class metrics
 
@@ -96,7 +96,6 @@ def validate_model(data_loader, model_path, classes, num_classes, model_type='py
     print(f"specificity: {specificity}")
     print(f"f05_score: {f05_score}")
     print(f"f2score: {f2score}")
-    print(f"kl_divergence: {kl_divergence}")
 
     print("Per class -------------------------------")
     print(f"per_class_specificity: {per_class_specificity}")
