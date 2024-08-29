@@ -35,5 +35,6 @@ def predict_model_citadel(image_data, model, img_size=224, device='cpu'):
     dicom_image_transformed = dicom_image_transformed.to(device)
     with torch.no_grad():
         output = model(dicom_image_transformed.unsqueeze(0)).squeeze()
-    return output.item()
+    outputs = output.cpu().numpy()
+    return outputs.tolist()
 

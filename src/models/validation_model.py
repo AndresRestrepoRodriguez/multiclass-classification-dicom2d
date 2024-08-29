@@ -54,8 +54,11 @@ def validate_model(data_loader, model_path, classes, num_classes, model_type='py
             
             predicted = torch.argmax(outputs, dim=1)
 
+            #sf = torch.nn.Softmax(dim=1)
+
             all_labels.extend(labels.cpu().numpy())
             all_predictions.extend(outputs.cpu().numpy())
+            #all_predictions.extend(sf(outputs).cpu().numpy())
     
 
     np_all_labels = np.array(all_labels)

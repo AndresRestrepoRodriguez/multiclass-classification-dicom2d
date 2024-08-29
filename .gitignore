@@ -7,6 +7,8 @@ __pycache__/
 *.so
 
 *.dcm
+*.png
+*.torchscript
 
 # Distribution / packaging
 .Python
