@@ -2,7 +2,7 @@ from torch.utils.data import Dataset
 import os
 import pydicom
 import numpy as np
-from src.utils.data import normalize_image, normalize_ct_int16
+from utils.data import normalize_image, normalize_ct_int16
 
 
 class MulticlassDICOMDataset(Dataset):
