@@ -81,7 +81,7 @@ for image in images_chest:
 
 for image in images_abdomen:
     ground_true_class = 0
-    label = 'abdoment'
+    label = 'abdomen'
     dicom_to_png(image, tmp_image_path)
 
     with open(tmp_image_path, 'rb') as f:

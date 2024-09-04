@@ -5,7 +5,8 @@ import onnxruntime as ort
 import io
 from src.utils.data import (
     read_dicom_image,
-    define_val_transformation
+    define_val_transformation,
+    normalize_image
 )
 
 
@@ -29,7 +30,7 @@ def predict_model(image: str, model, image_base64=False, img_size=224, device='c
 
 
 def predict_model_citadel(image_data, model, img_size=224, device='cpu'):
-    img_array = np.asarray(image_data).astype(np.float32) / 255.0
+    img_array = normalize_image(np.asarray(image_data))
     transformation = define_val_transformation(img_size)
     dicom_image_transformed = transformation(img_array)
     dicom_image_transformed = dicom_image_transformed.to(device)

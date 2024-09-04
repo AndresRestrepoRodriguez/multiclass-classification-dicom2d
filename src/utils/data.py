@@ -158,3 +158,17 @@ def read_dicom_image(image_file):
     ds = pydicom.dcmread(image_file, force=True)
     image = ds.pixel_array.astype(np.float32) / 255.0
     return image
+
+
+def normalize_image(image):
+    # Check the data type
+    if image.dtype == np.uint8:
+        return image.astype(np.float32) / 255.0
+    elif image.dtype == np.uint16:
+        return image.astype(np.float32) / 65535.0
+    elif image.dtype == np.int16:
+        # Shift to positive range and normalize
+        image_shifted = image.astype(np.float32) + 32768
+        return image_shifted / 65535.0
+    else:
+        raise ValueError("Unsupported data type")
