@@ -172,3 +172,54 @@ def normalize_image(image):
         return image_shifted / 65535.0
     else:
         raise ValueError("Unsupported data type")
+    
+
+def normalize_ct(image_array):
+    """
+    Normalize a DICOM CT image array to the range [0, 1].
+    
+    Parameters:
+    - image_array: NumPy array of the CT image. The array could be of type uint8, uint16, or int16.
+    
+    Returns:
+    - Normalized NumPy array with values in the range [0, 1].
+    """
+    
+    # Convert the image array to float32 for normalization
+    image_array = image_array.astype(np.float32)
+    
+    # Define the HU range for CT images
+    min_hu, max_hu = -1024, 3071
+    
+    # Clip the values to the HU range
+    image_array = np.clip(image_array, min_hu, max_hu)
+    
+    # Normalize to [0, 1]
+    normalized_image = (image_array - min_hu) / (max_hu - min_hu)
+    
+    return normalized_image
+
+
+def normalize_ct_int16(image_array, min_hu=-1024, max_hu=3071):
+    """
+    Normalize a DICOM CT image stored as int16 to the range [0, 1].
+    
+    Parameters:
+    - image_array: NumPy array of the CT image with int16 data type.
+    - min_hu: Minimum HU value to use for normalization (default: -1024).
+    - max_hu: Maximum HU value to use for normalization (default: 3071).
+    
+    Returns:
+    - Normalized NumPy array with values in the range [0, 1].
+    """
+    
+    # Ensure the image array is in float32 to perform normalization
+    image_array = image_array.astype(np.float32)
+    
+    # Clip the HU values to the specified range to handle outliers
+    image_array = np.clip(image_array, min_hu, max_hu)
+    
+    # Normalize to the range [0, 1]
+    normalized_image = (image_array - min_hu) / (max_hu - min_hu)
+    
+    return normalized_image

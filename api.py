@@ -24,7 +24,7 @@ print(model_structure)
 
 destination_file = os.path.join(MODELS_DIRECTORY, 'tmp_model.' + model_structure.extension)
 
-model_path = 'models/v2_dicom2d_multiclass_best_model.torchscript'
+model_path = 'models/norm_dicom2d_multiclass_best_model.torchscript'
 model = read_torchcript_model_eval(weights=model_path)
 
 

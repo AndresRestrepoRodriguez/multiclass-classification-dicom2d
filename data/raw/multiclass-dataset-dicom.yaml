@@ -1,6 +1,6 @@
 source: google-drive
-id_file: 1Nr7VLHRU3izzrWkoMnlMat4VBMP82Z3J
+id_file: 1GioXTPCM9oMJmBuqX-3emdu6MPnQGx-v
 task: multiclass-classification
-classes: ['abdomen', 'brain', 'chest']
+classes: ['bodyfront', 'bodyside', 'otherview']
 extension: rar
-folder: dataset-multiclass-dicom2d
+folder: dataset-multiclass-dicom_v2-int16
