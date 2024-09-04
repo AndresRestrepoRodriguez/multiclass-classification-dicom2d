@@ -26,6 +26,9 @@ def dicom_to_png(dicom_file_path, png_file_path):
     
     # Get the pixel array from the DICOM file
     image_array = dicom_image.pixel_array
+
+
+    #print(f"type in testing: {image_array.dtype}")
     
     # Normalize the pixel array to the range 0-255
     #image_array_normalized = (image_array - np.min(image_array)) / (np.max(image_array) - np.min(image_array)) * 255
@@ -51,8 +54,8 @@ for image in images_brain:
     response = requests.post('http://127.0.0.1:5000/predict', json=data)
     prob = response.json().get('predictions')
     prob = np.float32(prob)
-    print(prob)
-    print(type(prob))
+    #print(prob)
+    #print(type(prob))
     #class_prob = torch.sigmoid(torch.tensor(1-prob)).item()
     y_pred.append(prob)
     y_true.append(ground_true_class)
@@ -72,8 +75,8 @@ for image in images_chest:
     prob = response.json().get('predictions')
     prob = np.float32(prob)
     #class_prob = torch.sigmoid(torch.tensor(prob)).item()
-    print(prob)
-    print(type(prob))
+    #print(prob)
+    #print(type(prob))
     y_pred.append(prob)
     y_true.append(ground_true_class)
     y_score.append(prob)
@@ -92,8 +95,8 @@ for image in images_abdomen:
     prob = response.json().get('predictions')
     #prob = np.float32(prob)
     #class_prob = torch.sigmoid(torch.tensor(prob)).item()
-    print(prob)
-    print(type(prob))
+    #print(prob)
+    #print(type(prob))
     y_pred.append(prob)
     y_true.append(ground_true_class)
     y_score.append(prob)
