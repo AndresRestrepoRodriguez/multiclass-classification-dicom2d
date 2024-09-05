@@ -221,5 +221,6 @@ def normalize_ct_int16(image_array, min_hu=-1024, max_hu=3071):
     
     # Normalize to the range [0, 1]
     normalized_image = (image_array - min_hu) / (max_hu - min_hu)
+    normalized_image = normalized_image * 255
     
-    return normalized_image
+    return normalized_image.astype(np.uint8)

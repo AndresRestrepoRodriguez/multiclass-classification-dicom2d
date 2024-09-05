@@ -35,6 +35,7 @@ class MulticlassDICOMDataset(Dataset):
         image = ds.pixel_array
         #image = normalize_image(image)
         image = normalize_ct_int16(image_array=image)
+        image = image / 255.0 # Values between 0-1
         label = self.labels[idx]
 
         if self.transform:
