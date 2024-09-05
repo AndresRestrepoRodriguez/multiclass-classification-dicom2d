@@ -1,2 +1,4 @@
 venv/
 test/
+models/norm_dicom2d_multiclass_best_model.torchscript
+models/v2_dicom2d_multiclass_best_model.torchscript

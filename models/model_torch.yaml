@@ -5,4 +5,4 @@ classes: ['abdomen', 'brain', 'chest']
 extension: torchscript
 framework: pytorch
 folder: best_model
-file_name: norm_dicom2d_multiclass_best_model.torchscript
+file_name: v3_best_model.torchscript

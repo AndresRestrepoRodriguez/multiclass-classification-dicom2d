@@ -13,7 +13,7 @@ images_otherview_train = glob.glob(os.path.join('data/dataset/otherview/train', 
 images_otherview_val = glob.glob(os.path.join('data/dataset/otherview/val', '*.dcm'))"""
 
 
-testing_path = glob.glob(os.path.join('data/dataset-multiclass-dicom_v2-int16/val/otherview', '*.dcm'))
+testing_path = glob.glob(os.path.join('data/val/otherview', '*.dcm'))
 
 ct = 0
 for image in testing_path:
