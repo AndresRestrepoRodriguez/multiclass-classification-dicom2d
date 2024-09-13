@@ -3,7 +3,8 @@ from models.DICOMMulticlassClassification import MulticlassClassificationCNN
 import torch
 from models.export_model import (
     export_model_pytorch_trace,
-    export_model_onnx
+    export_model_onnx,
+    export_model_onnx_fixed
 )
 import os
 
@@ -26,7 +27,7 @@ def export(opt):
     if weights:
         try:
             model = MulticlassClassificationCNN(num_classes=num_classes)
-            model.load_state_dict(torch.load(weights))
+            model.load_state_dict(torch.load(weights, map_location=torch.device('cpu')))
 
         except Exception as e:
             raise Exception(f'Problem loading the Model: {e}')
@@ -43,7 +44,7 @@ def export(opt):
                                    im=im,
                                    torchscript_file_path=os.path.splitext(weights_name)[0] + f'.{format}')
     elif format == "onnx":
-        export_model_onnx(model=model,
+        export_model_onnx_fixed(model=model,
                           im=im,
                           onnx_file_path=os.path.splitext(weights_name)[0] + f'.{format}')
     else:

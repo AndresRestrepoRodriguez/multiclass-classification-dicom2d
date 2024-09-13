@@ -67,3 +67,24 @@ def export_model_onnx(model, im, onnx_file_path):
                       do_constant_folding=True, input_names=['input'], output_names=['output'],
                       dynamic_axes={'input': {0: 'batch_size'}, 'output': {0: 'batch_size'}})
     print(f"ONNX model saved to {onnx_file_path}")
+
+
+# Define the function that exports the model to both formats
+def export_model_onnx_fixed(model, im, onnx_file_path):
+    """
+    Exports a PyTorch model to both TorchScript and ONNX formats.
+
+    Args:
+        model (torch.nn.Module): The PyTorch model to export.
+        input_shape (tuple): The shape of the dummy input tensor for ONNX export.
+        torchscript_file_path (str): File path where the TorchScript model will be saved.
+        onnx_file_path (str): File path where the ONNX model will be saved.
+    """
+    # Ensure the model is in evaluation mode
+    model.eval()
+
+    # Export the model to ONNX
+    torch.onnx.export(model, im, onnx_file_path, export_params=True, opset_version=12,
+                      do_constant_folding=True, input_names=['input'], output_names=['output'],
+                      dynamic_axes=None)
+    print(f"ONNX model saved to {onnx_file_path}")
