@@ -2,9 +2,35 @@ import torch
 from tqdm import tqdm
 from sklearn.metrics import accuracy_score
 import numpy as np
+from typing import Optional
 
 
-def train_model(num_epochs, model, train_loader, val_loader, criterion, optimizer, writer=None, patience=10):
+def train_model(
+    num_epochs: int,
+    model: torch.nn.Module,
+    train_loader: torch.utils.data.DataLoader,
+    val_loader: torch.utils.data.DataLoader,
+    criterion: torch.nn.Module,
+    optimizer: torch.optim.Optimizer,
+    patience: int = 10
+) -> None:
+    
+    """
+    Trains a PyTorch model using a given training and validation data loader.
+
+    Args:
+        num_epochs (int): Number of epochs to train the model.
+        model (torch.nn.Module): PyTorch model to be trained.
+        train_loader (torch.utils.data.DataLoader): DataLoader for the training dataset.
+        val_loader (torch.utils.data.DataLoader): DataLoader for the validation dataset.
+        criterion (torch.nn.Module): Loss function used for training.
+        optimizer (torch.optim.Optimizer): Optimizer used to update the model parameters.
+        patience (int): Number of epochs to wait for improvement in validation loss before early stopping. Defaults to 10.
+
+    Returns:
+        None
+    """
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = model.to(device)
 
@@ -49,13 +75,6 @@ def train_model(num_epochs, model, train_loader, val_loader, criterion, optimize
 
         val_loss_avg = np.mean(val_losses)
         val_acc_avg = np.mean(val_acc)
-
-        # Log to TensorBoard
-        if writer is not None:
-            writer.add_scalar('Loss/train', train_loss_avg, epoch)
-            writer.add_scalar('Accuracy/train', train_acc_avg, epoch)
-            writer.add_scalar('Loss/validation', val_loss_avg, epoch)
-            writer.add_scalar('Accuracy/validation', val_acc_avg, epoch)
 
         if val_loss_avg < best_val_loss:
             best_val_loss = val_loss_avg

@@ -18,6 +18,7 @@ from pathlib import Path
 import sys
 import os
 import torch
+from typing import Union
 
 
 FILE = Path(__file__).resolve()
@@ -26,7 +27,20 @@ if str(ROOT) not in sys.path:
     sys.path.append(str(ROOT))
 ROOT = Path(os.path.relpath(ROOT, Path.cwd()))
 
-def train(opt):
+def train(opt: argparse.Namespace) -> None:
+    """
+    Trains a multiclass classification model using the provided configuration options.
+
+    Args:
+        opt (argparse.Namespace): Parsed command-line arguments containing:
+            - epochs (int): Number of training epochs.
+            - batch_size (int): Batch size for training.
+            - weights (str): Path to the initial model weights (if any).
+            - data (str): Path to the dataset configuration file (YAML).
+            - save_dir_data (str): Directory path for saving or accessing extracted data.
+            - imgsz (int): Image size for the input images.
+            - patience (int): EarlyStopping patience (epochs without improvement).
+    """
     
     epochs, batch_size, weights, data, save_dir_data, image_size, patience = (
         opt.epochs,
@@ -89,12 +103,26 @@ def train(opt):
                 optimizer,
                 patience=patience)
 
-def main(parameters):
+def main(parameters: argparse.Namespace) -> None:
+    """
+    Main function to start the training process using the given parameters.
+
+    Args:
+        parameters (argparse.Namespace): Command-line arguments for the training process.
+    """
     train(parameters)
 
 
-def parse_opt(known=False):
-    """Parses command-line arguments for YOLOv5 training, validation, and testing."""
+def parse_opt(known: bool = False) -> argparse.Namespace:
+    """
+    Parses command-line arguments for model training.
+
+    Args:
+        known (bool, optional): Whether to return known arguments only (used for testing). Defaults to False.
+
+    Returns:
+        argparse.Namespace: Parsed command-line arguments.
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument("--weights", type=str, default=None, help="initial weights path")
     parser.add_argument("--data", type=str, default=None, help="dataset.yaml path")
@@ -108,11 +136,18 @@ def parse_opt(known=False):
     return parser.parse_known_args()[0] if known else parser.parse_args()
 
 
-def run(**kwargs):
+def run(**kwargs: Union[str, int]) -> argparse.Namespace:
     """
-    Executes YOLOv5 training with given options, overriding with any kwargs provided.
+    Executes the training process with the given options, overriding any command-line arguments with the provided keyword arguments.
 
-    Example: import train; train.run(data='coco128.yaml', imgsz=320, weights='yolov5m.pt')
+    Args:
+        **kwargs (Union[str, int]): Additional options to override default command-line arguments.
+
+    Example:
+        import train; train.run(data='dataset.yaml', imgsz=320, weights='model_weights.pth')
+
+    Returns:
+        argparse.Namespace: The final set of options used for training.
     """
     opt = parse_opt(True)
     for k, v in kwargs.items():

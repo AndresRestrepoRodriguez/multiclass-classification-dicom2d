@@ -22,7 +22,22 @@ if str(ROOT) not in sys.path:
 ROOT = Path(os.path.relpath(ROOT, Path.cwd()))
 
 
-def val(opt):
+def val(opt: argparse.Namespace) -> None:
+    """
+    Validates a multiclass classification model using the provided configuration options.
+
+    Args:
+        opt (argparse.Namespace): Parsed command-line arguments containing:
+            - batch_size (int): Batch size for validation.
+            - weights (str): Path to the model weights file.
+            - data (str): Path to the dataset configuration file (YAML).
+            - save_dir_data (str): Directory path for saving or accessing extracted data.
+            - imgsz (int): Image size for the input images.
+            - model_type (str): Type of the model (e.g., 'pytorch', 'onnx').
+    
+    Returns:
+        None
+    """
 
     batch_size, weights, data, save_dir_data, image_size, model_type = (
         opt.batch_size,
@@ -70,8 +85,16 @@ def val(opt):
         )
 
 
-def parse_opt(known=False):
-    """Parses command-line arguments for YOLOv5 training, validation, and testing."""
+def parse_opt(known: bool = False) -> argparse.Namespace:
+    """
+    Parses command-line arguments for model validation.
+
+    Args:
+        known (bool, optional): Whether to return known arguments only (used for testing). Defaults to False.
+
+    Returns:
+        argparse.Namespace: Parsed command-line arguments.
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument("--weights", type=str, default=None, help="initial weights path")
     parser.add_argument("--data", type=str, default=None, help="dataset.yaml path")
@@ -85,15 +108,28 @@ def parse_opt(known=False):
     return parser.parse_known_args()[0] if known else parser.parse_args()
 
 
-def main(parameters):
+def main(parameters: argparse.Namespace) -> None:
+    """
+    Main function to initiate the validation process using the provided parameters.
+
+    Args:
+        parameters (argparse.Namespace): Command-line arguments for the validation process.
+    """
     val(parameters)
 
 
-def run(**kwargs):
+def run(**kwargs: Union[str, int]) -> argparse.Namespace:
     """
-    Executes YOLOv5 training with given options, overriding with any kwargs provided.
+    Executes the validation process with the given options, overriding any command-line arguments with the provided keyword arguments.
 
-    Example: import train; train.run(data='coco128.yaml', imgsz=320, weights='yolov5m.pt')
+    Args:
+        **kwargs (Union[str, int]): Additional options to override default command-line arguments.
+
+    Example:
+        import val; val.run(data='dataset.yaml', imgsz=320, weights='model_weights.pth')
+
+    Returns:
+        argparse.Namespace: The final set of options used for validation.
     """
     opt = parse_opt(True)
     for k, v in kwargs.items():

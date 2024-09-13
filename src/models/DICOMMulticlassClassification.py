@@ -4,7 +4,7 @@ import torch.nn.functional as F
 
 
 class MulticlassClassificationCNN(nn.Module):
-    def __init__(self, num_classes):
+    def __init__(self, num_classes: int):
         super(MulticlassClassificationCNN, self).__init__()
 
         # First convolutional layer that accepts a single grayscale image channel
@@ -52,7 +52,4 @@ class MulticlassClassificationCNN(nn.Module):
         x = self.dropout4(x)
         x = self.fc2(x)
         
-        # Apply softmax to output logits to get probabilities for each class
-        #x = F.softmax(x, dim=1)  # dim=1 applies softmax across the class dimension
-
         return x
