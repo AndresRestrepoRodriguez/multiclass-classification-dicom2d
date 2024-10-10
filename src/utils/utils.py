@@ -1,8 +1,7 @@
 import os
 
 
-
-def check_directory_contents(directory):
+def check_directory_contents(directory: str):
     """
     Checks if the specified directory exists and contains files or subdirectories.
 

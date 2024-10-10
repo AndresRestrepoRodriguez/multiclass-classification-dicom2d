@@ -5,15 +5,16 @@ import json
 
 
 # Define the function that exports the model to both formats
-def export_model_pytorch(model, torchscript_file_path):
+def export_model_pytorch(model: nn.Module, torchscript_file_path: str) -> None:
     """
-    Exports a PyTorch model to both TorchScript and ONNX formats.
+    Exports a PyTorch model to TorchScript format.
 
     Args:
         model (torch.nn.Module): The PyTorch model to export.
-        input_shape (tuple): The shape of the dummy input tensor for ONNX export.
         torchscript_file_path (str): File path where the TorchScript model will be saved.
-        onnx_file_path (str): File path where the ONNX model will be saved.
+
+    Returns:
+        None
     """
     # Ensure the model is in evaluation mode
     model.eval()
@@ -25,15 +26,17 @@ def export_model_pytorch(model, torchscript_file_path):
 
 
 # Define the function that exports the model to both formats
-def export_model_pytorch_trace(model, im, torchscript_file_path):
+def export_model_pytorch_trace(model: nn.Module, im: torch.Tensor, torchscript_file_path: str) -> None:
     """
-    Exports a PyTorch model to both TorchScript and ONNX formats.
+    Exports a PyTorch model to TorchScript format using tracing.
 
     Args:
         model (torch.nn.Module): The PyTorch model to export.
-        input_shape (tuple): The shape of the dummy input tensor for ONNX export.
+        im (torch.Tensor): An example input tensor to trace the model.
         torchscript_file_path (str): File path where the TorchScript model will be saved.
-        onnx_file_path (str): File path where the ONNX model will be saved.
+
+    Returns:
+        None
     """
     # Ensure the model is in evaluation mode
     model.eval()
@@ -49,15 +52,17 @@ def export_model_pytorch_trace(model, im, torchscript_file_path):
 
 
 # Define the function that exports the model to both formats
-def export_model_onnx(model, im, onnx_file_path):
+def export_model_onnx(model: nn.Module, im: torch.Tensor, onnx_file_path: str) -> None:
     """
-    Exports a PyTorch model to both TorchScript and ONNX formats.
+    Exports a PyTorch model to ONNX format.
 
     Args:
         model (torch.nn.Module): The PyTorch model to export.
-        input_shape (tuple): The shape of the dummy input tensor for ONNX export.
-        torchscript_file_path (str): File path where the TorchScript model will be saved.
+        im (torch.Tensor): An example input tensor for the ONNX export.
         onnx_file_path (str): File path where the ONNX model will be saved.
+
+    Returns:
+        None
     """
     # Ensure the model is in evaluation mode
     model.eval()
@@ -70,15 +75,17 @@ def export_model_onnx(model, im, onnx_file_path):
 
 
 # Define the function that exports the model to both formats
-def export_model_onnx_fixed(model, im, onnx_file_path):
+def export_model_onnx_fixed(model: nn.Module, im: torch.Tensor, onnx_file_path: str):
     """
-    Exports a PyTorch model to both TorchScript and ONNX formats.
+    Exports a PyTorch model to ONNX format without dynamic axes.
 
     Args:
         model (torch.nn.Module): The PyTorch model to export.
-        input_shape (tuple): The shape of the dummy input tensor for ONNX export.
-        torchscript_file_path (str): File path where the TorchScript model will be saved.
+        im (torch.Tensor): An example input tensor for the ONNX export.
         onnx_file_path (str): File path where the ONNX model will be saved.
+
+    Returns:
+        None
     """
     # Ensure the model is in evaluation mode
     model.eval()

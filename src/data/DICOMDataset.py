@@ -33,7 +33,7 @@ class MulticlassDICOMDataset(Dataset):
     def __getitem__(self, idx):
         ds = pydicom.dcmread(self.filenames[idx])
         image = ds.pixel_array
-        #image = normalize_image(image)
+        #Normalize image
         image = normalize_ct_int16(image_array=image)
         image = image / 255.0 # Values between 0-1
         image = image.astype(np.float32)

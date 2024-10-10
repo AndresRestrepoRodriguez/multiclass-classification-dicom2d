@@ -7,14 +7,14 @@ import torchvision.transforms as transforms
 import yaml
 import requests
 from torch.utils.data import Dataset, DataLoader
-
+from typing import Union
 import pydicom
 import numpy as np
 from bs4 import BeautifulSoup
 
 
 
-def download_public_google_drive_file(file_id, destination):
+def download_public_google_drive_file(file_id: str, destination: str):
     """
     Download a publicly shared file from Google Drive using its file ID and save it to a local file.
 
@@ -37,7 +37,17 @@ def download_public_google_drive_file(file_id, destination):
     print(f"File has been downloaded successfully and saved to {destination}")
 
 
-def download_file_from_google_drive(file_id, destination):
+def download_public_google_drive_file(file_id: str, destination: str):
+    """
+    Download a publicly shared file from Google Drive using its file ID and save it to a local file.
+
+    Args:
+    file_id (str): Google Drive shared file ID.
+    destination (str): The local path to save the downloaded file.
+
+    Returns:
+    None
+    """
     URL = "https://drive.google.com/uc?export=download"
     session = requests.Session()
 
@@ -49,6 +59,7 @@ def download_file_from_google_drive(file_id, destination):
         response = session.get(URL, params=params, stream=True)
     save_response_content(response, destination)
 
+
 def get_confirm_token(response):
     # We use BeautifulSoup to parse the HTML content
     soup = BeautifulSoup(response.content, "html.parser")
@@ -58,6 +69,7 @@ def get_confirm_token(response):
         return tag['value']
     return None
 
+
 def save_response_content(response, destination):
     CHUNK_SIZE = 32768
     with open(destination, "wb") as f:
@@ -66,7 +78,7 @@ def save_response_content(response, destination):
                 f.write(chunk)
 
 
-def decompress_file(filepath, extract_to):
+def decompress_file(filepath : str, extract_to: str):
     """
     Decompress a file based on its extension.
 
@@ -99,7 +111,16 @@ def decompress_file(filepath, extract_to):
     print(f"Removed compressed file '{filepath}'.")
 
 
-def define_train_transformation(img_size: int):
+def define_train_transformation(img_size: int) -> transforms.Compose:
+    """
+    Defines the training transformation for image preprocessing.
+
+    Args:
+        img_size (int): The size to which the input images should be resized (width and height).
+
+    Returns:
+        transforms.Compose: A composition of transformations including conversion to tensor and resizing.
+    """
 
     training_transform = transforms.Compose([
         transforms.ToTensor(),
@@ -113,7 +134,16 @@ def define_train_transformation(img_size: int):
     return training_transform
 
 
-def define_val_transformation(img_size: int):
+def define_val_transformation(img_size: int) -> transforms.Compose:
+    """
+    Defines the validation transformation for image preprocessing.
+
+    Args:
+        img_size (int): The size to which the input images should be resized (width and height).
+
+    Returns:
+        transforms.Compose: A composition of transformations including conversion to tensor and resizing.
+    """
 
     validation_transform = transforms.Compose([
         transforms.ToTensor(),
@@ -123,7 +153,18 @@ def define_val_transformation(img_size: int):
     return validation_transform
 
 
-def define_dataloader(dataset: Dataset, batch_size: int, shuffle: bool = True):
+def define_dataloader(dataset: Dataset, batch_size: int, shuffle: bool = True) -> DataLoader:
+    """
+    Defines a DataLoader for the given dataset.
+
+    Args:
+        dataset (torch.utils.data.Dataset): The dataset to load.
+        batch_size (int): Number of samples per batch.
+        shuffle (bool, optional): Whether to shuffle the dataset at every epoch. Defaults to True.
+
+    Returns:
+        torch.utils.data.DataLoader: A DataLoader object for the dataset.
+    """
     return DataLoader(dataset, batch_size=batch_size, shuffle=shuffle)
 
 
@@ -154,7 +195,16 @@ def read_yaml(filepath: str):
     return data
 
 
-def read_dicom_image(image_file):
+def read_dicom_image(image_file: Union[str, bytes]) -> np.ndarray:
+    """
+    Reads a DICOM image from a file and normalizes its pixel values.
+
+    Args:
+        image_file (Union[str, bytes]): The path to the DICOM file or file-like object in bytes.
+
+    Returns:
+        np.ndarray: A NumPy array of the image data, normalized to the range [0, 1].
+    """
     ds = pydicom.dcmread(image_file, force=True)
     image = ds.pixel_array.astype(np.float32) / 255.0
     return image
@@ -174,7 +224,7 @@ def normalize_image(image):
         raise ValueError("Unsupported data type")
     
 
-def normalize_ct(image_array):
+def normalize_ct(image_array: np.array):
     """
     Normalize a DICOM CT image array to the range [0, 1].
     
@@ -200,7 +250,7 @@ def normalize_ct(image_array):
     return normalized_image
 
 
-def normalize_ct_int16(image_array, min_hu=-1024, max_hu=3071):
+def normalize_ct_int16(image_array: np.array, min_hu: int = -1024, max_hu: int = 3071):
     """
     Normalize a DICOM CT image stored as int16 to the range [0, 1].
     

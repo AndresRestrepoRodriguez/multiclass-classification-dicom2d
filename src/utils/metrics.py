@@ -547,3 +547,45 @@ def matthews_correlation(y_true, y_pred):
 def balanced_accuracy(y_true, y_pred):
     yp = np.argmax(y_pred, axis=1)
     return balanced_accuracy_score(y_true, yp)
+
+
+def generate_report(y_true, y_pred) -> None:
+    confusion_matrix = confusionmatrix(y_true, y_pred)
+    specificity_score = specificity(y_true, y_pred)
+    accuracy_score = accuracy(y_true, y_pred)
+    f1_score = f1score(y_true, y_pred)
+    f05_score = f05score(y_true, y_pred)
+    f2score_score = f2score(y_true, y_pred)
+    precision_score = precision(y_true, y_pred)
+    recall_score = recall(y_true, y_pred)
+
+    #Per class metrics
+
+    per_class_specificity_score = per_class_specificity(y_true, y_pred)
+    per_class_accuracy_score = per_class_accuracy(y_true, y_pred)
+    per_class_precision_score = per_class_precision(y_true, y_pred)
+    per_class_recall_score = per_class_recall(y_true, y_pred)
+    per_class_f1score_score = per_class_f1score(y_true, y_pred)
+    per_class_f2score_score = per_class_f2score(y_true, y_pred)
+    per_class_f05score_score = per_class_f05score(y_true, y_pred)
+
+
+    #cm = confusion_matrix(all_labels, all_predictions)
+
+    print(f"Confusion Matrix: {confusion_matrix}")
+    print(f"Validation Accuracy: {accuracy_score}")
+    print(f"Precision: {precision_score}")
+    print(f"Recall: {recall_score}")
+    print(f"F1 Score: {f1_score}")
+    print(f"specificity: {specificity_score}")
+    print(f"f05_score: {f05_score}")
+    print(f"f2score: {f2score_score}")
+
+    print("Per class -------------------------------")
+    print(f"per_class_specificity: {per_class_specificity_score}")
+    print(f"per_class_accuracy: {per_class_accuracy_score}")
+    print(f"per_class_precision: {per_class_precision_score}")
+    print(f"per_class_recall: {per_class_recall_score}")
+    print(f"per_class_f1score: {per_class_f1score_score}")
+    print(f"per_class_f2score: {per_class_f2score_score}")
+    print(f"per_class_f05score: {per_class_f05score_score}")
