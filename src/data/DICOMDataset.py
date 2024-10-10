@@ -2,7 +2,8 @@ from torch.utils.data import Dataset
 import os
 import pydicom
 import numpy as np
-from utils.data import normalize_image, normalize_ct_int16
+from utils.data import normalize_ct_int16
+from typing import List, Optional, Callable
 
 
 class MulticlassDICOMDataset(Dataset):
@@ -13,7 +14,7 @@ class MulticlassDICOMDataset(Dataset):
             transform (callable, optional): Optional transform to be applied on a sample.
     """
     
-    def __init__(self, directory, classes, transform=None):
+    def __init__(self, directory: str, classes: List[str], transform: Optional[Callable[[np.ndarray], np.ndarray]] = None):
         self.directory = directory
         self.transform = transform
         self.filenames = []
@@ -27,13 +28,14 @@ class MulticlassDICOMDataset(Dataset):
                     self.filenames.append(os.path.join(subdir_path, filename))
                     self.labels.append(label)
 
+
     def __len__(self):
         return len(self.filenames)
+
 
     def __getitem__(self, idx):
         ds = pydicom.dcmread(self.filenames[idx])
         image = ds.pixel_array
-        #image = normalize_image(image)
         image = normalize_ct_int16(image_array=image)
         label = self.labels[idx]
 
