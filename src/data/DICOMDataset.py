@@ -36,10 +36,10 @@ class MulticlassDICOMDataset(Dataset):
     def __getitem__(self, idx):
         ds = pydicom.dcmread(self.filenames[idx])
         image = ds.pixel_array
-        image = normalize_ct_int16(image_array=image)
         label = self.labels[idx]
 
         if self.transform:
+            image = normalize_ct_int16(image_array=image)
             image = self.transform(image)
 
         return image, label
