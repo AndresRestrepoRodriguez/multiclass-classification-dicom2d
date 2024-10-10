@@ -38,6 +38,16 @@ def download_public_google_drive_file(file_id: str, destination: str):
 
 
 def download_file_from_google_drive(file_id: str, destination: str):
+    """
+    Download a publicly shared file from Google Drive using its file ID and save it to a local file.
+
+    Args:
+    file_id (str): Google Drive shared file ID.
+    destination (str): The local path to save the downloaded file.
+
+    Returns:
+    None
+    """
     URL = "https://drive.google.com/uc?export=download"
     session = requests.Session()
 
