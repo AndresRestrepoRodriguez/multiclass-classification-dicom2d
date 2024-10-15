@@ -22,9 +22,9 @@ DICOM (Digital Imaging and Communications in Medicine) is a standard format for 
 
 To handle DICOM images, we convert them into 2D image tensors that can be fed into the PyTorch models for binary classification tasks.
 
-## Binary Image Classification
+## Multiclass Image Classification
 
-Binary classification refers to categorizing images into two distinct classes. In the case of medical image analysis, these classes could represent "normal" vs "abnormal" findings, "benign" vs "malignant" conditions, or any other binary category. The model learns to classify images based on features extracted from the DICOM images.
+Multiclass image classification extends beyond binary classification by categorizing images into three or more distinct classes. In the context of medical image analysis, this could involve classifying conditions such as "normal," "benign," and "malignant," or identifying different types of abnormalities, diseases, or anatomical structures. The model learns to distinguish between multiple categories by extracting relevant features from the input images, such as DICOM images, and assigning them to one of the predefined classes. This approach is crucial in medical diagnostics, where multiple outcomes or diagnoses are possible based on the visual information in the image.
 
 ## How to Use
 
@@ -39,16 +39,20 @@ Before starting the training process, you need to prepare and organize your data
 │   ├── /class_0
 │   │   └── image1.dcm, image2.dcm, ...
 │   ├── /class_1
+│   │   └── image1.dcm, image2.dcm, ...
+│   ├── /class_2
 │       └── image1.dcm, image2.dcm, ...
 │
 └── /val
     ├── /class_0
     │   └── image1.dcm, image2.dcm, ...
     ├── /class_1
+    │   └── image1.dcm, image2.dcm, ...
+    ├── /class_2
         └── image1.dcm, image2.dcm, ...
 ```
 
-- `train/`: This folder contains the training images organized into subfolders where each subfolder corresponds to one of the two classes.
+- `train/`: This folder contains the training images organized into subfolders where each subfolder corresponds each class.
 - `val/`: This folder contains the validation images organized similarly into subfolders.
 
 ### Upload and Share Dataset on Google Drive
