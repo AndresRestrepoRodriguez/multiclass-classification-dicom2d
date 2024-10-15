@@ -1,11 +1,11 @@
-# DICOM 2D Image Binary Classification with PyTorch
+# DICOM 2D Image Multiclass Classification with PyTorch
 
-This repository contains a pipeline for binary classification of DICOM 2D medical images using PyTorch. The code is designed to handle the preprocessing, training, validation, and model exporting for image classification tasks where the input images are in DICOM format.
+This repository contains a pipeline for multiclass classification of DICOM 2D medical images using PyTorch. The code is designed to handle the preprocessing, training, validation, and model exporting for image classification tasks where the input images are in DICOM format.
 
 ## Table of Contents
 - [Introduction](#introduction)
 - [DICOM 2D Images](#dicom-2d-images)
-- [Binary Image Classification](#binary-image-classification)
+- [Multiclass Image Classification](#binary-image-classification)
 - [How to Use](#how-to-use)
   - [Dataset Preparation](#dataset-preparation)
   - [Configuration File](#configuration-file)
